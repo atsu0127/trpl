@@ -80,6 +80,22 @@ impl Config {
 mod test {
     use super::*;
     #[test]
+    fn can_parse_args() {
+        let args = vec!["command".to_string(), "query".to_string(), "filename".to_string()];
+        let config = Config::new(&args).unwrap();
+
+        assert_eq!(args[1], config.query);
+        assert_eq!(args[2], config.filename);
+    }
+
+    #[test]
+    #[should_panic(expected = "not enough arguments")]
+    fn cannot_parse_args_with_few_numbers() {
+        let args = vec!["command".to_string()];
+        let _ = Config::new(&args).unwrap();
+    }
+
+    #[test]
     fn case_sensitive() {
         let query = "duct";
         let contents = "\
