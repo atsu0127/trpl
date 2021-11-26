@@ -1,5 +1,5 @@
 use std::cmp::Ordering;
-use generics::{Summary, Tweet, NewsArticle, notify, notify_detail, returns_summarizable};
+use generics::{Summary, Tweet, NewsArticle, notify, notify_detail, returns_summarizable, Pair};
 
 fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
@@ -10,7 +10,7 @@ fn main() {
     let result = largest(&char_list);
     println!("The largest char is {}", result);
 
-    let point_list = vec![Point {x: 10, y: 20}, Point {x: 15, y: 20}, Point {x: 5, y: 20}];
+    let point_list = vec![Point {x: 10, y: 20}, Point {x: 15, y: 20}, Point {x: 25, y: 20}];
     let result = largest(&point_list);
     println!("The largest point is {:?}", result);
 
@@ -46,6 +46,9 @@ fn main() {
     notify(&article);
     notify_detail(&article);
     notify(&returns_summarizable());
+
+    let pair = Pair::new(10, 15);
+    pair.cmp_display();
 }
 
 fn largest<T: PartialOrd>(list: &[T]) -> &T {
@@ -66,7 +69,13 @@ struct Point<T, U> {
     y: U
 }
 
-impl<T, U> PartialOrd for Point<T, U> {
+impl<T: PartialEq, U: PartialEq> PartialEq for Point<T, U> {
+    fn eq(&self, other: &Self) -> bool {
+        self.x == other.x && self.y == other.y
+    }
+}
+
+impl<T: PartialOrd, U: PartialOrd> PartialOrd for Point<T, U> {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         if self.x > other.x {
             Some(Ordering::Greater)
