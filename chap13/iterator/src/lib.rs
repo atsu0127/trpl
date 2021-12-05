@@ -76,3 +76,15 @@ fn using_other_iterator_trait_methods() {
 
     assert_eq!(18, sum);
 }
+
+#[test]
+fn test_mut_iterator() {
+    let mut v1 = vec![1, 2, 3];
+
+    let mut v1_iter = v1.iter_mut();
+
+    assert_eq!(v1_iter.next(), Some(&mut 1));
+    assert_eq!(v1_iter.next(), Some(&mut 2));
+    assert_eq!(v1_iter.next(), Some(&mut 3));
+    assert_eq!(v1_iter.next(), None);
+}
