@@ -1,9 +1,9 @@
 use std::error;
-use std::fmt::{Debug, Display, Formatter};
+use std::fmt::{ Debug, Display };
 use std::fmt;
 
 // 既存のResultをラップするResultを作りたい
-pub type Result<T> = std::result::Result<T, dyn error::Error>;
+pub type Result<T> = std::result::Result<T, Box<dyn error::Error>>;
 
 // カスタムエラーを作りたい
 #[derive(Debug)]
@@ -15,9 +15,4 @@ impl Display for CustomError {
     }
 }
 
-// TODO: 何やってんの？
-impl error::Error for CustomError {
-    fn source(&self) -> Option<&(dyn error::Error + 'static)> {
-        None
-    }
-}
+impl error::Error for CustomError {}
